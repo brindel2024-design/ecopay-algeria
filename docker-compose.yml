@@ -1,0 +1,37 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: ecopay_db
+    environment:
+      POSTGRES_DB: ecopay_db
+      POSTGRES_USER: ecopay_user
+      POSTGRES_PASSWORD: ecopay_secret_2025
+    volumes:
+      - ecopay_pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  api:
+    build: ./backend
+    container_name: ecopay_api
+    depends_on: [db]
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DB_HOST: db
+      DB_NAME: ecopay_db
+      DB_USER: ecopay_user
+      DB_PASSWORD: ecopay_secret_2025
+      JWT_SECRET: change_this_in_production
+    ports:
+      - "3001:3001"
+  frontend:
+    image: nginx:alpine
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "3000:80"
+volumes:
+  ecopay_pgdata:
+    driver: local
