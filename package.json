@@ -1,0 +1,13 @@
+{
+  "name": "ecopay-algeria",
+  "version": "1.0.0",
+  "description": "Ecopay — Digital Wallet for Algeria",
+  "private": true,
+  "scripts": {
+    "install:backend": "cd backend && npm install",
+    "start:backend": "cd backend && npm start",
+    "dev:backend": "cd backend && npm run dev",
+    "migrate": "cd backend && node config/migrate.js",
+    "setup": "npm run install:backend && npm run migrate"
+  }
+}
